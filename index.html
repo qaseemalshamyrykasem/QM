@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<style>
+    *{
+    padding: 0px;
+    margin: 0px;
+    font-family: 'dubai-light';
+}
+body {
+background-color: rgb(23, 27, 29);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content:space-around ;
+height: 100vh;
+}
+
+h2 {
+color: white;
+font-size: 40px;
+
+}
+.prompt{
+background-color: #292c31;
+padding: 4px;
+width: 600px;
+border:3px solid #36383d;
+border-radius: 9px;
+}
+input,button {
+padding: 10px;
+border:none ;
+font-size: 20px;
+}
+input{
+background-color:rgb(23, 27, 29) ;
+width: 75%;
+outline: none;
+color: #ffff;
+}
+button{
+background-color: #36383d;
+color: #ffff;
+width: 20%;
+cursor: pointer;
+}
+button:hover{
+background-color: #e3e3e3;
+}
+.images{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+}
+.images div{
+    background-color: #313131;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    border: 3px solid #353535;
+}
+.images div img{
+width: 100%;
+height: 100%;
+}
+ul{
+    color: white;
+
+}
+a
+{
+    color: rgb(255, 179, 0);
+    font-size: 12px;
+}
+</style>
+<title>AI Images Generator By QM_Mods</title>
+</head>
+<body>
+   <!-- عنوان المشروع -->
+<h2>AI Images Generator By QM_Mods</h2>
+<!--نتيجة الصور -->
+<div class="images">
+   <div></div>
+   <div></div>
+   <div></div>
+   <div></div>
+</div>
+<!-- ادخال النص-->
+<div class="prompt">
+    <input id="inp" type="text">
+    <button onclick="getImages()">Generator </button>
+
+</div>
+    <script>
+        const api = "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"
+const inp = document.getElementById('inp')
+const images = document.querySelector('.images')
+
+const getImages = async () => { 
+    // make a request to openai api
+    const methods = { 
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${api}`
+        },
+        body: JSON.stringify({
+            "prompt": inp.value,
+            "n": 4,
+            "size": "1024x1024"
+        })
+    }
+
+    const res = await fetch("https://api.openai.com/v1/images/generations", methods)
+    // parse the response as json 
+    const data = await res.json()
+    console.log(data)
+    const ListImages = data.data;
+    images.innerHTML =""
+    ListImages.map(photo => {
+        const container = document.createElement("div")
+        images.append(container)
+        const img = document.createElement("img")
+        container.append(img)
+        img.src = photo.url
+    
+    })
+}
+
+    </script>
+</ul>
+<ul class="copyright">
+    <li>&copy; توليد الصور بالذكاء الإصطناعي</li><li>تصميم وبرمجة: <a href="http://t.m/qasim01">KM_Mods قاسم الشميري </a></li>
+</ul>
+</body>
+</html>
